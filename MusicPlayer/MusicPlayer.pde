@@ -15,155 +15,138 @@ void setup() {
 
 // ================= DRAW =================
 void draw() {
-
   // --- Screen Info ---
   println(displayWidth, displayHeight);
 
   int appWidth = displayWidth;
   int appHeight = displayHeight;
 
+  // Maintaining your exact paper coordinate scaling system
   float paperWidth = 216;
   float paperHeight = 279;
 
-  // ================= HEADER =================
-  float headerX = appWidth * 0   / paperWidth;
-  float headerY = appHeight * 0  / paperHeight;
-  float headerW = appWidth * 216 / paperWidth;
-  float headerH = appHeight * 25 / paperHeight;
-  rect(headerX, headerY, headerW, headerH);
+  background(240); // Clears screen
 
-  // ================= TOP BOXES =================
-  float topBox1X = appWidth * 10  / paperWidth;
-  float topBox1Y = appHeight * 25 / paperHeight;
-  float topBox1W = appWidth * 30  / paperWidth;
-  float topBox1H = appHeight * 25 / paperHeight;
-  rect(topBox1X, topBox1Y, topBox1W, topBox1H);
+  // ================= 1. TITLE / HEADER AREA =================
+  float titleX = appWidth * 10  / paperWidth;
+  float titleY = appHeight * 10 / paperHeight;
+  float titleW = appWidth * 196 / paperWidth;
+  float titleH = appHeight * 30 / paperHeight;
+  rect(titleX, titleY, titleW, titleH);
 
-  float topBox2X = appWidth * 176 / paperWidth;
-  float topBox2Y = appHeight * 25 / paperHeight;
-  float topBox2W = appWidth * 30  / paperWidth;
-  float topBox2H = appHeight * 25 / paperHeight;
-  rect(topBox2X, topBox2Y, topBox2W, topBox2H);
 
-  // ================= SIDE PANELS =================
-  float leftX = appWidth * 0   / paperWidth;
-  float leftY = appHeight * 50 / paperHeight;
-  float leftW = appWidth * 30  / paperWidth;
-  float leftH = appHeight * 140 / paperHeight;
-  rect(leftX, leftY, leftW, leftH);
+  // ================= 2. PICTURE / ALBUM ART AREA =================
+  float picX = appWidth * 28  / paperWidth;
+  float picY = appHeight * 55 / paperHeight;
+  float picW = appWidth * 160 / paperWidth;
+  float picH = appHeight * 140 / paperHeight;
+  rect(picX, picY, picW, picH);
 
-  float rightX = appWidth * 186 / paperWidth;
-  float rightY = appHeight * 50 / paperHeight;
-  float rightW = appWidth * 30  / paperWidth;
-  float rightH = appHeight * 140 / paperHeight;
-  rect(rightX, rightY, rightW, rightH);
 
-  // ===== LEFT PANEL BOXES =====
-  float l1X = appWidth * 5  / paperWidth;
-  float l1Y = appHeight * 60 / paperHeight;
-  float l1W = appWidth * 20 / paperWidth;
-  float l1H = appHeight * 20 / paperHeight;
-  rect(l1X, l1Y, l1W, l1H);
+  // ================= 3. SEVEN BUTTONS CONTROLS AREA =================
+  float btnY = appHeight * 215 / paperHeight;
+  float btnW = appWidth * 24   / paperWidth;
+  float btnH = appHeight * 35  / paperHeight;
 
-  float l2X = appWidth * 5  / paperWidth;
-  float l2Y = appHeight * 90 / paperHeight;
-  float l2W = appWidth * 20 / paperWidth;
-  float l2H = appHeight * 20 / paperHeight;
-  rect(l2X, l2Y, l2W, l2H);
+  // Button 1: Shuffle / Mode
+  float btn1X = appWidth * 12 / paperWidth;
+  rect(btn1X, btnY, btnW, btnH);
 
-  float l3X = appWidth * 5   / paperWidth;
-  float l3Y = appHeight * 120 / paperHeight;
-  float l3W = appWidth * 20  / paperWidth;
-  float l3H = appHeight * 20 / paperHeight;
-  rect(l3X, l3Y, l3W, l3H);
+  // Button 2: Rewind / Fast-Back
+  float btn2X = appWidth * 40 / paperWidth;
+  rect(btn2X, btnY, btnW, btnH);
 
-  // ===== RIGHT PANEL BOXES =====
-  float r1X = appWidth * 191 / paperWidth;
-  float r1Y = appHeight * 60 / paperHeight;
-  float r1W = appWidth * 20  / paperWidth;
-  float r1H = appHeight * 20 / paperHeight;
-  rect(r1X, r1Y, r1W, r1H);
+  // Button 3: Previous Track
+  float btn3X = appWidth * 68 / paperWidth;
+  rect(btn3X, btnY, btnW, btnH);
 
-  float r2X = appWidth * 191 / paperWidth;
-  float r2Y = appHeight * 90 / paperHeight;
-  float r2W = appWidth * 20  / paperWidth;
-  float r2H = appHeight * 20 / paperHeight;
-  rect(r2X, r2Y, r2W, r2H);
+  // Button 4: Play / Pause (Center Button)
+  float btn4X = appWidth * 96 / paperWidth;
+  rect(btn4X, btnY, btnW, btnH);
 
-  float r3X = appWidth * 191 / paperWidth;
-  float r3Y = appHeight * 120 / paperHeight;
-  float r3W = appWidth * 20  / paperWidth;
-  float r3H = appHeight * 20 / paperHeight;
-  rect(r3X, r3Y, r3W, r3H);
+  // Button 5: Fast-Forward / Jump
+  float btn5X = appWidth * 124 / paperWidth;
+  rect(btn5X, btnY, btnW, btnH);
 
-  // ================= CENTER AREA =================
-  float centerX = appWidth * 30  / paperWidth;
-  float centerY = appHeight * 50 / paperHeight;
-  float centerW = appWidth * 156 / paperWidth;
-  float centerH = appHeight * 140 / paperHeight;
-  rect(centerX, centerY, centerW, centerH);
+  // Button 6: Next Track (Directly left of loop)
+  float btn6X = appWidth * 152 / paperWidth;
+  rect(btn6X, btnY, btnW, btnH);
+  drawNextSymbol(btn6X, btnY, btnW, btnH); // Draws the Next Track icon
 
-  // ===== CENTER GRID =====
+  // Button 7: Repeat / Loop
+  float btn7X = appWidth * 180 / paperWidth;
+  rect(btn7X, btnY, btnW, btnH);
+  drawLoopSymbol(btn7X, btnY, btnW, btnH); // Draws the Loop icon
+}
 
-  // Top row
-  float c1X = appWidth * 40  / paperWidth;
-  float c1Y = appHeight * 60 / paperHeight;
-  float c1W = appWidth * 50  / paperWidth;
-  float c1H = appHeight * 50 / paperHeight;
-  rect(c1X, c1Y, c1W, c1H);
+// ================= HELPER FUNCTIONS =================
 
-  float c2X = appWidth * 130 / paperWidth;
-  float c2Y = appHeight * 60 / paperHeight;
-  float c2W = appWidth * 50  / paperWidth;
-  float c2H = appHeight * 50 / paperHeight;
-  rect(c2X, c2Y, c2W, c2H);
+// Standard "Next Track" symbol
+void drawNextSymbol(float x, float y, float w, float h) {
+  pushMatrix();
+  pushStyle();
 
-  // Bottom row
-  float c3X = appWidth * 40   / paperWidth;
-  float c3Y = appHeight * 120 / paperHeight;
-  float c3W = appWidth * 50   / paperWidth;
-  float c3H = appHeight * 50  / paperHeight;
-  rect(c3X, c3Y, c3W, c3H);
+  float centerX = x + (w / 2);
+  float centerY = y + (h / 2);
 
-  float c4X = appWidth * 130  / paperWidth;
-  float c4Y = appHeight * 120 / paperHeight;
-  float c4W = appWidth * 50   / paperWidth;
-  float c4H = appHeight * 50  / paperHeight;
-  rect(c4X, c4Y, c4W, c4H);
+  // Scale based on button width
+  float size = w * 0.35;
 
-  // ================= BOTTOM SECTION =================
-  float bottomX = appWidth * 0   / paperWidth;
-  float bottomY = appHeight * 190 / paperHeight;
-  float bottomW = appWidth * 216 / paperWidth;
-  float bottomH = appHeight * 89 / paperHeight;
-  rect(bottomX, bottomY, bottomW, bottomH);
+  fill(0);
+  noStroke();
 
-  // ===== BUTTONS =====
-  float b1X = appWidth * 10  / paperWidth;
-  float b1Y = appHeight * 210 / paperHeight;
-  float b1W = appWidth * 40  / paperWidth;
-  float b1H = appHeight * 40 / paperHeight;
-  rect(b1X, b1Y, b1W, b1H);
+  // First triangle
+  triangle(centerX - size/2, centerY - size/2,
+    centerX, centerY,
+    centerX - size/2, centerY + size/2);
 
-  float b2X = appWidth * 60  / paperWidth;
-  float b2Y = appHeight * 210 / paperHeight;
-  float b2W = appWidth * 40  / paperWidth;
-  float b2H = appHeight * 40 / paperHeight;
-  rect(b2X, b2Y, b2W, b2H);
+  // Second triangle
+  triangle(centerX, centerY - size/2,
+    centerX + size/2, centerY,
+    centerX, centerY + size/2);
 
-  float b3X = appWidth * 110 / paperWidth;
-  float b3Y = appHeight * 210 / paperHeight;
-  float b3W = appWidth * 40  / paperWidth;
-  float b3H = appHeight * 40 / paperHeight;
-  rect(b3X, b3Y, b3W, b3H);
+  // End line bar
+  stroke(0);
+  strokeWeight(10);
+  line(centerX + size/2, centerY - size/2, centerX + size/2, centerY + size/2);
 
-  float b4X = appWidth * 160 / paperWidth;
-  float b4Y = appHeight * 210 / paperHeight;
-  float b4W = appWidth * 40  / paperWidth;
-  float b4H = appHeight * 40 / paperHeight;
-  rect(b4X, b4Y, b4W, b4H);
+  popStyle();
+  popMatrix();
+}
+
+// Standard loop symbol
+void drawLoopSymbol(float x, float y, float w, float h) {
+  pushMatrix();
+  pushStyle();
+
+  float centerX = x + (w / 2);
+  float centerY = y + (h / 2);
+  float radius = w * 0.45;
+
+  stroke(0);
+  strokeWeight(10);
+  noFill();
+  arc(centerX, centerY, radius, radius, 0.15, 5.1);
+
+  float arrowX = centerX + cos(5.1) * (radius / 2);
+  float arrowY = centerY + sin(5.1) * (radius / 2);
+  fill(0);
+  stroke(0);
+  strokeWeight(10);
+
+  pushMatrix();
+  translate(arrowX, arrowY);
+  rotate(0.3);
+  triangle(0, -4, 5, 2, -3, 3);
+  popMatrix();
+
+  popStyle();
+  popMatrix();
 }
 
 // ================= INPUT =================
-void mousePressed() {}
-void keyPressed() {}
+void mousePressed() {
+}
+//
+void keyPressed() {
+}
