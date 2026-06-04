@@ -48,38 +48,162 @@ void draw() {
   float btnW = appWidth * 24   / paperWidth;
   float btnH = appHeight * 35  / paperHeight;
 
-  // Button 1: Shuffle / Mode
+  // Button 1: Shuffle / Mode (On the very left - updated sizing)
   float btn1X = appWidth * 12 / paperWidth;
   rect(btn1X, btnY, btnW, btnH);
+  drawShuffleSymbol(btn1X, btnY, btnW, btnH); // Draws Shuffle icon
 
-  // Button 2: Rewind / Fast-Back
+  // Button 2: Previous Track (Second division from the left)
   float btn2X = appWidth * 40 / paperWidth;
   rect(btn2X, btnY, btnW, btnH);
+  drawPreviousSymbol(btn2X, btnY, btnW, btnH); // Draws Previous Track icon
 
-  // Button 3: Previous Track
+  // Button 3: Rewind (Moved one square to the right)
   float btn3X = appWidth * 68 / paperWidth;
   rect(btn3X, btnY, btnW, btnH);
+  drawRewindSymbol(btn3X, btnY, btnW, btnH); // Draws Rewind icon
 
   // Button 4: Play / Pause (Center Button)
   float btn4X = appWidth * 96 / paperWidth;
   rect(btn4X, btnY, btnW, btnH);
 
-  // Button 5: Fast-Forward / Jump
+  // Button 5: Fast-Forward (Directly left of next track)
   float btn5X = appWidth * 124 / paperWidth;
   rect(btn5X, btnY, btnW, btnH);
+  drawFastForwardSymbol(btn5X, btnY, btnW, btnH); // Draws FF icon
 
   // Button 6: Next Track (Directly left of loop)
   float btn6X = appWidth * 152 / paperWidth;
   rect(btn6X, btnY, btnW, btnH);
-  drawNextSymbol(btn6X, btnY, btnW, btnH); // Draws the Next Track icon
+  drawNextSymbol(btn6X, btnY, btnW, btnH); // Draws Next Track icon
 
   // Button 7: Repeat / Loop
   float btn7X = appWidth * 180 / paperWidth;
   rect(btn7X, btnY, btnW, btnH);
-  drawLoopSymbol(btn7X, btnY, btnW, btnH); // Draws the Loop icon
+  drawLoopSymbol(btn7X, btnY, btnW, btnH); // Draws Loop icon
 }
 
 // ================= HELPER FUNCTIONS =================
+
+// Standard "Previous Track" symbol (Symmetric to Next Track)
+void drawPreviousSymbol(float x, float y, float w, float h) {
+  pushMatrix();
+  pushStyle();
+
+  float centerX = x + (w / 2);
+  float centerY = y + (h / 2);
+  float size = w * 0.35;
+
+  fill(0);
+  noStroke();
+
+  // First triangle (Right inner)
+  triangle(centerX + size/2, centerY - size/2,
+           centerX,          centerY,
+           centerX + size/2, centerY + size/2);
+
+  // Second triangle (Left inner)
+  triangle(centerX,          centerY - size/2,
+           centerX - size/2, centerY,
+           centerX,          centerY + size/2);
+
+  // End line bar on the left edge
+  stroke(0);
+  strokeWeight(10); 
+  line(centerX - size/2, centerY - size/2, centerX - size/2, centerY + size/2);
+
+  popStyle();
+  popMatrix();
+}
+
+// Standard "Shuffle" symbol (Blended size configuration)
+void drawShuffleSymbol(float x, float y, float w, float h) {
+  pushMatrix();
+  pushStyle();
+
+  float centerX = x + (w / 2);
+  float centerY = y + (h / 2);
+  
+  float sizeX = w * 0.32;
+  float sizeY = h * 0.18;
+
+  stroke(0);
+  strokeWeight(10); 
+  noFill();
+
+  bezier(centerX - sizeX, centerY - sizeY, 
+         centerX - sizeX/3, centerY - sizeY, 
+         centerX + sizeX/3, centerY + sizeY, 
+         centerX + sizeX, centerY + sizeY);
+
+  bezier(centerX - sizeX, centerY + sizeY, 
+         centerX - sizeX/3, centerY + sizeY, 
+         centerX + sizeX/3, centerY - sizeY, 
+         centerX + sizeX, centerY - sizeY);
+
+  fill(0);
+  stroke(0);
+  strokeWeight(10);
+  
+  triangle(centerX + sizeX,     centerY - sizeY, 
+           centerX + sizeX - 4, centerY - sizeY - 3, 
+           centerX + sizeX - 4, centerY - sizeY + 3);
+           
+  triangle(centerX + sizeX,     centerY + sizeY, 
+           centerX + sizeX - 4, centerY + sizeY - 3, 
+           centerX + sizeX - 4, centerY + sizeY + 3);
+
+  popStyle();
+  popMatrix();
+}
+
+// Standard "Rewind" symbol (Two triangles pointing left, matches FF size)
+void drawRewindSymbol(float x, float y, float w, float h) {
+  pushMatrix();
+  pushStyle();
+
+  float centerX = x + (w / 2);
+  float centerY = y + (h / 2);
+  float size = w * 0.35;
+
+  fill(0);
+  noStroke();
+
+  triangle(centerX,            centerY - size/2,
+           centerX - size,     centerY,
+           centerX,            centerY + size/2);
+
+  triangle(centerX + size,     centerY - size/2,
+           centerX,            centerY,
+           centerX + size,     centerY + size/2);
+
+  popStyle();
+  popMatrix();
+}
+
+// Standard "Fast Forward" symbol (Two triangles, no end bar)
+void drawFastForwardSymbol(float x, float y, float w, float h) {
+  pushMatrix();
+  pushStyle();
+
+  float centerX = x + (w / 2);
+  float centerY = y + (h / 2);
+  float size = w * 0.35;
+
+  fill(0);
+  noStroke();
+
+  triangle(centerX - size,     centerY - size/2,
+           centerX,            centerY,
+           centerX - size,     centerY + size/2);
+
+  triangle(centerX,            centerY - size/2,
+           centerX + size,     centerY,
+           centerX,            centerY + size/2);
+
+  popStyle();
+  popMatrix();
+}
 
 // Standard "Next Track" symbol
 void drawNextSymbol(float x, float y, float w, float h) {
@@ -88,26 +212,21 @@ void drawNextSymbol(float x, float y, float w, float h) {
 
   float centerX = x + (w / 2);
   float centerY = y + (h / 2);
-
-  // Scale based on button width
   float size = w * 0.35;
 
   fill(0);
   noStroke();
 
-  // First triangle
   triangle(centerX - size/2, centerY - size/2,
-    centerX, centerY,
-    centerX - size/2, centerY + size/2);
+           centerX,          centerY,
+           centerX - size/2, centerY + size/2);
 
-  // Second triangle
-  triangle(centerX, centerY - size/2,
-    centerX + size/2, centerY,
-    centerX, centerY + size/2);
+  triangle(centerX,          centerY - size/2,
+           centerX + size/2, centerY,
+           centerX,          centerY + size/2);
 
-  // End line bar
   stroke(0);
-  strokeWeight(10);
+  strokeWeight(10); 
   line(centerX + size/2, centerY - size/2, centerX + size/2, centerY + size/2);
 
   popStyle();
@@ -124,12 +243,13 @@ void drawLoopSymbol(float x, float y, float w, float h) {
   float radius = w * 0.45;
 
   stroke(0);
-  strokeWeight(10);
+  strokeWeight(10); 
   noFill();
   arc(centerX, centerY, radius, radius, 0.15, 5.1);
 
   float arrowX = centerX + cos(5.1) * (radius / 2);
   float arrowY = centerY + sin(5.1) * (radius / 2);
+  
   fill(0);
   stroke(0);
   strokeWeight(10);
@@ -145,8 +265,5 @@ void drawLoopSymbol(float x, float y, float w, float h) {
 }
 
 // ================= INPUT =================
-void mousePressed() {
-}
-//
-void keyPressed() {
-}
+void mousePressed() {}
+void keyPressed() {}
