@@ -1,30 +1,21 @@
-/* MusicApp, Final Project */
+/* MusicApp, Final Project - Grade 10 */
 
-// ================= LIBRARIES =================
-import ddf.minim.*;
-import ddf.minim.analysis.*;
-import ddf.minim.effects.*;
-import ddf.minim.signals.*;
-import ddf.minim.spi.*;
-import ddf.minim.ugens.*;
+// ================= GLOBAL VARIABLES =================
+int appWidth;
+int appHeight;
+
+
+float paperWidth = 216;
+float paperHeight = 279;
 
 // ================= SETUP =================
 void setup() {
   fullScreen();
-}
+  
+  appWidth = displayWidth;
+  appHeight = displayHeight;
 
-// ================= DRAW =================
-void draw() {
-  // --- Screen Info ---
-  println(displayWidth, displayHeight);
-
-  int appWidth = displayWidth;
-  int appHeight = displayHeight;
-
-  // Maintaining your exact paper coordinate scaling system
-  float paperWidth = 216;
-  float paperHeight = 279;
-
+  
   background(240); // Clears screen
 
   // ================= 1. TITLE / HEADER AREA =================
@@ -32,6 +23,10 @@ void draw() {
   float titleY = appHeight * 10 / paperHeight;
   float titleW = appWidth * 196 / paperWidth;
   float titleH = appHeight * 30 / paperHeight;
+  
+  fill(255);
+  stroke(0);
+  strokeWeight(2);
   rect(titleX, titleY, titleW, titleH);
 
 
@@ -40,6 +35,8 @@ void draw() {
   float picY = appHeight * 55 / paperHeight;
   float picW = appWidth * 160 / paperWidth;
   float picH = appHeight * 140 / paperHeight;
+  
+  fill(255);
   rect(picX, picY, picW, picH);
 
 
@@ -48,220 +45,103 @@ void draw() {
   float btnW = appWidth * 24   / paperWidth;
   float btnH = appHeight * 35  / paperHeight;
 
-  // Button 1: Shuffle / Mode (On the very left - updated sizing)
+  // ---------------- Button 1: Shuffle ----------------
   float btn1X = appWidth * 12 / paperWidth;
+  fill(255);
+  stroke(0);
   rect(btn1X, btnY, btnW, btnH);
-  drawShuffleSymbol(btn1X, btnY, btnW, btnH); // Draws Shuffle icon
+  
+  stroke(0);
+  strokeWeight(3);
+  line(btn1X + btnW*0.2, btnY + btnH*0.3, btn1X + btnW*0.8, btnY + btnH*0.7);
+  line(btn1X + btnW*0.2, btnY + btnH*0.7, btn1X + btnW*0.8, btnY + btnH*0.3);
+  fill(0);
+  triangle(btn1X + btnW*0.8, btnY + btnH*0.3, btn1X + btnW*0.65, btnY + btnH*0.25, btn1X + btnW*0.75, btnY + btnH*0.45);
+  triangle(btn1X + btnW*0.8, btnY + btnH*0.7, btn1X + btnW*0.65, btnY + btnH*0.75, btn1X + btnW*0.75, btnY + btnH*0.55);
 
-  // Button 2: Previous Track (Second division from the left)
+
+  // ---------------- Button 2: Previous Track ----------------
   float btn2X = appWidth * 40 / paperWidth;
+  fill(255);
+  stroke(0);
   rect(btn2X, btnY, btnW, btnH);
-  drawPreviousSymbol(btn2X, btnY, btnW, btnH); // Draws Previous Track icon
+  
+  fill(0);
+  noStroke();
+  triangle(btn2X + btnW*0.55, btnY + btnH*0.25, btn2X + btnW*0.25, btnY + btnH*0.5, btn2X + btnW*0.55, btnY + btnH*0.75);
+  triangle(btn2X + btnW*0.85, btnY + btnH*0.25, btn2X + btnW*0.55, btnY + btnH*0.5, btn2X + btnW*0.85, btnY + btnH*0.75);
+  stroke(0);
+  strokeWeight(3);
+  line(btn2X + btnW*0.2, btnY + btnH*0.25, btn2X + btnW*0.2, btnY + btnH*0.75);
 
-  // Button 3: Rewind (Moved one square to the right)
+
+  // ---------------- Button 3: Rewind ----------------
   float btn3X = appWidth * 68 / paperWidth;
+  fill(255);
+  stroke(0);
   rect(btn3X, btnY, btnW, btnH);
-  drawRewindSymbol(btn3X, btnY, btnW, btnH); // Draws Rewind icon
+  
+  fill(0);
+  noStroke();
+  triangle(btn3X + btnW*0.5, btnY + btnH*0.25, btn3X + btnW*0.15, btnY + btnH*0.5, btn3X + btnW*0.5, btnY + btnH*0.75);
+  triangle(btn3X + btnW*0.85, btnY + btnH*0.25, btn3X + btnW*0.5, btnY + btnH*0.5, btn3X + btnW*0.85, btnY + btnH*0.75);
 
-  // Button 4: Play / Pause (Center Button)
+
+  // ---------------- Button 4: Play / Pause (Center Button) ----------------
   float btn4X = appWidth * 96 / paperWidth;
+  fill(255);
+  stroke(0);
   rect(btn4X, btnY, btnW, btnH);
+  
+  fill(0);
+  noStroke();
+  triangle(btn4X + btnW*0.35, btnY + btnH*0.25, btn4X + btnW*0.75, btnY + btnH*0.5, btn4X + btnW*0.35, btnY + btnH*0.75);
 
-  // Button 5: Fast-Forward (Directly left of next track)
+
+  // ---------------- Button 5: Fast-Forward ----------------
   float btn5X = appWidth * 124 / paperWidth;
+  fill(255);
+  stroke(0);
   rect(btn5X, btnY, btnW, btnH);
-  drawFastForwardSymbol(btn5X, btnY, btnW, btnH); // Draws FF icon
+  
+  fill(0);
+  noStroke();
+  triangle(btn5X + btnW*0.15, btnY + btnH*0.25, btn5X + btnW*0.5, btnY + btnH*0.5, btn5X + btnW*0.15, btnY + btnH*0.75);
+  triangle(btn5X + btnW*0.5, btnY + btnH*0.25, btn5X + btnW*0.85, btnY + btnH*0.5, btn5X + btnW*0.5, btnY + btnH*0.75);
 
-  // Button 6: Next Track (Directly left of loop)
+
+  // ---------------- Button 6: Next Track ----------------
   float btn6X = appWidth * 152 / paperWidth;
+  fill(255);
+  stroke(0);
   rect(btn6X, btnY, btnW, btnH);
-  drawNextSymbol(btn6X, btnY, btnW, btnH); // Draws Next Track icon
+  
+  fill(0);
+  noStroke();
+  triangle(btn6X + btnW*0.15, btnY + btnH*0.25, btn6X + btnW*0.45, btnY + btnH*0.5, btn6X + btnW*0.15, btnY + btnH*0.75);
+  triangle(btn6X + btnW*0.45, btnY + btnH*0.25, btn6X + btnW*0.75, btnY + btnH*0.5, btn6X + btnW*0.45, btnY + btnH*0.75);
+  stroke(0);
+  strokeWeight(3);
+  line(btn6X + btnW*0.8, btnY + btnH*0.25, btn6X + btnW*0.8, btnY + btnH*0.75);
 
-  // Button 7: Repeat / Loop
+
+  // ---------------- Button 7: Repeat / Loop ----------------
   float btn7X = appWidth * 180 / paperWidth;
+  fill(255);
+  stroke(0);
   rect(btn7X, btnY, btnW, btnH);
-  drawLoopSymbol(btn7X, btnY, btnW, btnH); // Draws Loop icon
-}
-
-// ================= HELPER FUNCTIONS =================
-
-// Standard "Previous Track" symbol (Symmetric to Next Track)
-void drawPreviousSymbol(float x, float y, float w, float h) {
-  pushMatrix();
-  pushStyle();
-
-  float centerX = x + (w / 2);
-  float centerY = y + (h / 2);
-  float size = w * 0.35;
-
-  fill(0);
-  noStroke();
-
-  // First triangle (Right inner)
-  triangle(centerX + size/2, centerY - size/2,
-           centerX,          centerY,
-           centerX + size/2, centerY + size/2);
-
-  // Second triangle (Left inner)
-  triangle(centerX,          centerY - size/2,
-           centerX - size/2, centerY,
-           centerX,          centerY + size/2);
-
-  // End line bar on the left edge
-  stroke(0);
-  strokeWeight(10); 
-  line(centerX - size/2, centerY - size/2, centerX - size/2, centerY + size/2);
-
-  popStyle();
-  popMatrix();
-}
-
-// Standard "Shuffle" symbol (Blended size configuration)
-void drawShuffleSymbol(float x, float y, float w, float h) {
-  pushMatrix();
-  pushStyle();
-
-  float centerX = x + (w / 2);
-  float centerY = y + (h / 2);
   
-  float sizeX = w * 0.32;
-  float sizeY = h * 0.18;
-
   stroke(0);
-  strokeWeight(10); 
+  strokeWeight(3);
   noFill();
-
-  bezier(centerX - sizeX, centerY - sizeY, 
-         centerX - sizeX/3, centerY - sizeY, 
-         centerX + sizeX/3, centerY + sizeY, 
-         centerX + sizeX, centerY + sizeY);
-
-  bezier(centerX - sizeX, centerY + sizeY, 
-         centerX - sizeX/3, centerY + sizeY, 
-         centerX + sizeX/3, centerY - sizeY, 
-         centerX + sizeX, centerY - sizeY);
-
+  rect(btn7X + btnW*0.25, btnY + btnH*0.3, btnW*0.5, btnH*0.4);
   fill(0);
-  stroke(0);
-  strokeWeight(10);
+  triangle(btn7X + btnW*0.75, btnY + btnH*0.3, btn7X + btnW*0.6, btnY + btnH*0.15, btn7X + btnW*0.6, btnY + btnH*0.45);
+}
+
+// ================= DRAW =================
+void draw() {
   
-  triangle(centerX + sizeX,     centerY - sizeY, 
-           centerX + sizeX - 4, centerY - sizeY - 3, 
-           centerX + sizeX - 4, centerY - sizeY + 3);
-           
-  triangle(centerX + sizeX,     centerY + sizeY, 
-           centerX + sizeX - 4, centerY + sizeY - 3, 
-           centerX + sizeX - 4, centerY + sizeY + 3);
-
-  popStyle();
-  popMatrix();
-}
-
-// Standard "Rewind" symbol (Two triangles pointing left, matches FF size)
-void drawRewindSymbol(float x, float y, float w, float h) {
-  pushMatrix();
-  pushStyle();
-
-  float centerX = x + (w / 2);
-  float centerY = y + (h / 2);
-  float size = w * 0.35;
-
-  fill(0);
-  noStroke();
-
-  triangle(centerX,            centerY - size/2,
-           centerX - size,     centerY,
-           centerX,            centerY + size/2);
-
-  triangle(centerX + size,     centerY - size/2,
-           centerX,            centerY,
-           centerX + size,     centerY + size/2);
-
-  popStyle();
-  popMatrix();
-}
-
-// Standard "Fast Forward" symbol (Two triangles, no end bar)
-void drawFastForwardSymbol(float x, float y, float w, float h) {
-  pushMatrix();
-  pushStyle();
-
-  float centerX = x + (w / 2);
-  float centerY = y + (h / 2);
-  float size = w * 0.35;
-
-  fill(0);
-  noStroke();
-
-  triangle(centerX - size,     centerY - size/2,
-           centerX,            centerY,
-           centerX - size,     centerY + size/2);
-
-  triangle(centerX,            centerY - size/2,
-           centerX + size,     centerY,
-           centerX,            centerY + size/2);
-
-  popStyle();
-  popMatrix();
-}
-
-// Standard "Next Track" symbol
-void drawNextSymbol(float x, float y, float w, float h) {
-  pushMatrix();
-  pushStyle();
-
-  float centerX = x + (w / 2);
-  float centerY = y + (h / 2);
-  float size = w * 0.35;
-
-  fill(0);
-  noStroke();
-
-  triangle(centerX - size/2, centerY - size/2,
-           centerX,          centerY,
-           centerX - size/2, centerY + size/2);
-
-  triangle(centerX,          centerY - size/2,
-           centerX + size/2, centerY,
-           centerX,          centerY + size/2);
-
-  stroke(0);
-  strokeWeight(10); 
-  line(centerX + size/2, centerY - size/2, centerX + size/2, centerY + size/2);
-
-  popStyle();
-  popMatrix();
-}
-
-// Standard loop symbol
-void drawLoopSymbol(float x, float y, float w, float h) {
-  pushMatrix();
-  pushStyle();
-
-  float centerX = x + (w / 2);
-  float centerY = y + (h / 2);
-  float radius = w * 0.45;
-
-  stroke(0);
-  strokeWeight(10); 
-  noFill();
-  arc(centerX, centerY, radius, radius, 0.15, 5.1);
-
-  float arrowX = centerX + cos(5.1) * (radius / 2);
-  float arrowY = centerY + sin(5.1) * (radius / 2);
-  
-  fill(0);
-  stroke(0);
-  strokeWeight(10);
-
-  pushMatrix();
-  translate(arrowX, arrowY);
-  rotate(0.3);
-  triangle(0, -4, 5, 2, -3, 3);
-  popMatrix();
-
-  popStyle();
-  popMatrix();
 }
 
 // ================= INPUT =================
